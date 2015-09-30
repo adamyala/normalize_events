@@ -1,10 +1,10 @@
 import config
 from flask import Flask, jsonify, abort, make_response
-from flask.ext.httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPBasicAuth
 from lib.models import *
 from sqlalchemy.sql import select
 from lib.feeds.helpers import *
-from flask.ext.compress import Compress
+from flask_compress import Compress
 
 
 app = Flask(__name__, static_url_path="")

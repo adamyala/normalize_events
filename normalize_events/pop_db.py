@@ -1,10 +1,9 @@
-from lib.feeds.test_feed import TestClient
+# from lib.feeds.test_feed import TestClient
 from lib.feeds.eventbrite import EventbriteClient
 from lib.feeds.meetup import MeetupClient
 from lib.feeds.brownpapertickets import BPTClient
 from lib.feeds.eventful import EventfulClient
-from lib.popdb import PopDb
-from lib.models import *
+from lib.pop_db import PopDb
 from config import *
 from lib.maps import MapClient
 
