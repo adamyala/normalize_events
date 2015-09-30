@@ -20,6 +20,7 @@ class Event(object):
             self.zipcode = None
             self.event_id = None
             self.categories = None
+            self.api_id = None
 
     def is_incomplete(self):
         requirements = [
