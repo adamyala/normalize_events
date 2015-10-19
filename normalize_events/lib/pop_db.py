@@ -15,9 +15,8 @@ class PopDb(object):
     def insert_event(self, event):
         invalid = event.is_invalid(self.connection)
         if invalid is False:
-            # print(curr_event.source + ', ' + curr_event.name)
             event.insert(self.connection)
-            event.pick_categories(event.categories, self.connection)
+            event.set_categories(self.connection)
         elif type(invalid) is not bool:
             invalid.insert(self.connection)
         return event.event_id

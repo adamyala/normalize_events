@@ -6,6 +6,9 @@ DATABASE = {
     'database': 'events'
     }
 
+# Food, Music
+CATEGORY = ''
+
 CLIENT_EB = {
     'token': '',
     'url': 'https://www.eventbriteapi.com/v3',
@@ -77,7 +80,7 @@ CLIENT_MU = {
         'Lifestyle': '16',
         'Literature': '17',
         'Films': '18',
-        'Music': '19',
+        'Music': '21',
         'Spirituality': '20',
     },
 }

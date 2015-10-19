@@ -25,7 +25,7 @@ class BPTClient(Client):
                 'country': CLIENT_BPT['country'],
                 'page': page
                 })
-            links = BeautifulSoup(source.text).findAll("a", "viewlink")
+            links = BeautifulSoup(source.text, "html.parser").findAll("a", "viewlink")
             if links:
                 group_ids = map(lambda link: str(link)[65:72], links)
                 for group_id in group_ids:

@@ -1,4 +1,4 @@
 venv/*
 *.pyc
 .*.pyc
-*.png
+normalize_events/config.py

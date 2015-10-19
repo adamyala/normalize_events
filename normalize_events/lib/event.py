@@ -1,6 +1,7 @@
 from eventlog import EventLog
-from models import event, eventcategory
+from models import event, eventcategory, category
 from sqlalchemy.sql import select
+from category import Category
 
 
 class Event(object):
@@ -82,9 +83,10 @@ class Event(object):
             connection.execute(ins)
         return self
 
-    def set_categories(self):
-        event_string = self.name + self.description
-        self.categories = self.category_algo(event_string)
+    def set_categories(self, connection):
+        event_category = Category(connection)
+        event_category.get_categories_in_db()
+        event_category.add_event_category(self.name + ' ' + self.description, self.event_id)
         return self
 
     def category_algo(self, event_string):

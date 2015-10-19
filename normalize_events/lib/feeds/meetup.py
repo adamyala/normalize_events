@@ -3,7 +3,7 @@ from ..event import Event
 import json
 import datetime
 import helpers as h
-from config import CLIENT_MU
+from config import CLIENT_MU, CATEGORY
 
 
 class MeetupClient(Client):
@@ -14,7 +14,7 @@ class MeetupClient(Client):
         return json.loads(self._get('/2/open_events', {
             'sign': 'true',
             'state': CLIENT_MU['state'],
-            'category': CLIENT_MU['category'],
+            'category': CLIENT_MU['category'][CATEGORY],
             'status': 'upcoming',
             'key': self.token
             }).text)['results']

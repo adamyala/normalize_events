@@ -1,7 +1,25 @@
 from normalize_events import config
 from sqlalchemy import create_engine, func, Column, Table, MetaData
-from sqlalchemy import Integer, String, DateTime, Numeric
+from sqlalchemy import Integer, String, DateTime, Numeric, ForeignKey
 from sqlalchemy.engine.url import URL
+from sqlalchemy.sql import expression
+from sqlalchemy.ext import compiler
+
+
+class StringAgg(expression.FunctionElement):
+    name = "StringAgg"
+
+
+@compiler.compiles(StringAgg)
+def _stringagg(element, compiler, **kw):
+    if len(element.clauses) == 2:
+        separator = compiler.process(element.clauses.clauses[1])
+    else:
+        separator = ','
+    return "string_agg({0},'{1}')".format(
+        compiler.process(element.clauses.clauses[0]),
+        separator,
+    )
 
 engine = create_engine(URL(**config.DATABASE))
 metadata = MetaData()
@@ -38,8 +56,8 @@ eventcategory = Table(
     'eventcategory',
     metadata,
     Column('id', Integer, primary_key=True),
-    Column('event_id', Integer),
-    Column('category_id', Integer)
+    Column('event_id', Integer, ForeignKey("event.id")),
+    Column('category_id', Integer, ForeignKey("category.id"))
     )
 
 eventlog = Table(

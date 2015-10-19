@@ -1,4 +1,4 @@
-# from lib.feeds.test_feed import TestClient
+from lib.feeds.test_feed import TestClient
 from lib.feeds.eventbrite import EventbriteClient
 from lib.feeds.meetup import MeetupClient
 from lib.feeds.brownpapertickets import BPTClient

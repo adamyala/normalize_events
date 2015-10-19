@@ -1,5 +1,5 @@
 import config
-from flask import Flask, jsonify, abort, make_response
+from flask import Flask, jsonify, abort, make_response, request
 from flask_httpauth import HTTPBasicAuth
 from lib.models import *
 from sqlalchemy.sql import select
@@ -33,31 +33,49 @@ def unauthorized():
 
 
 @app.errorhandler(400)
-def not_found():
+def bad_request(detail):
     return make_response(jsonify({'error': 'Bad Request'}), 400)
 
 
 @app.errorhandler(404)
-def not_found():
+def not_found(detail):
     return make_response(jsonify({'error': 'Not Found'}), 404)
+
+
+def build_select():
+    j = event.join(eventcategory).join(category)
+    query = select(
+        [
+            expression.label('id', event.c.id), expression.label('name', event.c.name),
+            expression.label('place', event.c.place), expression.label('date', event.c.date),
+            expression.label('description', event.c.description), expression.label('link', event.c.link),
+            expression.label('address1', event.c.address1), expression.label('address2', event.c.address2),
+            expression.label('city', event.c.city), expression.label('state', event.c.state),
+            expression.label('zipcode', event.c.zipcode), expression.label('cost', event.c.cost),
+            expression.label('source', event.c.source), expression.label('category', StringAgg(category.c.category)),
+        ]
+    ).select_from(j).group_by(event.c.id)
+    return query
 
 
 @app.route('/v1.0/events', methods=['GET'])
 @auth.login_required
 def get_events():
+    params = request.args.to_dict()
     conn = engine.connect()
-    query = "SELECT e.id, e.name, e.place, e.date, e.description, e.link, e.address1, e.address2, e.city, e.state, e.zipcode, e.cost, e.created, e.source, string_agg(c.category,',') as category FROM event AS e JOIN eventcategory AS ec ON e.id = ec.event_id JOIN category AS c ON ec.category_id = c.id WHERE e.date >= NOW() GROUP BY 1ORDER BY e.date"
-    events = conn.execute(query)
-    events = rows_to_dict(events.keys(), events.fetchall())
-    events = pretty_events(events)
-    return jsonify(events=events), 200
+    query = build_select()
 
+    if 'event_id' in params:
+        query = query.where(event.c.id == params['event_id'])
+    if 'starDate' in params:
+        query = query.where(event.c.date == params['startDate'])
+    if 'endDate' in params:
+        query = query.where(event.c.date == params['endDate'])
+    if 'created' in params:
+        query = query.where(event.c.created == params['created'])
+    if 'city' in params:
+        query = query.where(event.c.city == params['city'])
 
-@app.route('/v1.0/events/<int:event_id>', methods=['GET'])
-@auth.login_required
-def get_event(event_id):
-    conn = engine.connect()
-    query = "SELECT e.id, e.name, e.place, e.date, e.description, e.link, e.address1, e.address2, e.city, e.state, e.zipcode, e.cost, e.created, e.source, string_agg(c.category,',') as category FROM event AS e JOIN eventcategory AS ec ON e.id = ec.event_id JOIN category AS c ON ec.category_id = c.id WHERE e.date >= NOW() AND e.id = " + str(event_id) + "GROUP BY 1 ORDER BY e.date"
     events = conn.execute(query)
     events = rows_to_dict(events.keys(), events.fetchall())
     if len(events) == 0:
