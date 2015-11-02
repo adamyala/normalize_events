@@ -5,7 +5,11 @@ normalize_events takes events from the following sources and creates a normalize
 * [Brown Paper Tickets](https://www.brownpapertickets.com/developer/index.html)
 * [Eventful](http://api.eventful.com/)
 * [Meetup](http://www.meetup.com/meetup_api/)
+
+Coming soon...
 * FaceBook (still working on this one)
+* Universe
+* SeatGeek
 
 # Setup
 
