@@ -1,4 +1,5 @@
 venv/*
 *.pyc
 .*.pyc
+.idea/
 normalize_events/config.py
