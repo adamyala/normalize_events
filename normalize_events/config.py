@@ -123,7 +123,7 @@ CLIENT_EF = {
 CLIENT_GM = {
     'token': '',
     'url': 'https://maps.googleapis.com/',
-    'on': True,
+    'on': False,
 }
 
 USER_NAME = 'ADD USER HERE'
