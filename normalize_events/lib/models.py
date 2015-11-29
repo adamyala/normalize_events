@@ -1,4 +1,4 @@
-from normalize_events import config
+import config
 from sqlalchemy import create_engine, func, Column, Table, MetaData
 from sqlalchemy import Integer, String, DateTime, Numeric, ForeignKey
 from sqlalchemy.engine.url import URL
