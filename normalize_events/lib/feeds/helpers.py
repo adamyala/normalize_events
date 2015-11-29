@@ -1,6 +1,8 @@
 import sys  
 import re
 import HTMLParser
+import datetime
+from decimal import *
 
 
 def clean_string(descrip):
@@ -36,10 +38,6 @@ def rows_to_dict(keys, rows):
             temp_dict[key] = getattr(row, key)
         result.append(temp_dict)
     return result
-
-
-import datetime
-from decimal import *
 
 
 def pretty_events(events):

@@ -24,12 +24,3 @@ class PopDb(object):
     def close_connection(self):
         self.connection.close()
         return True
-
-
-    # gets events from each source
-    # inserts them 1 by 1
-    #      if maps are on, download maps
-
-    # method to get all events
-    # method to an insert event
-    # method to download a map

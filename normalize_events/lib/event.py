@@ -70,28 +70,11 @@ class Event(object):
         self.event_id = connection.execute(ins).inserted_primary_key[0]
         return self.event_id
 
-    def old_code(self, connection):
-        event_string = self.name + self.description
-        other = True
-        self.category_algo(event_string)
-        for curr_category in self.categories:
-            ins = eventcategory.insert().values(event_id=self.event_id, category_id=curr_category['id'])
-            connection.execute(ins)
-            other = False
-        if other:
-            ins = eventcategory.insert().values(event_id=self.event_id, category_id=12)
-            connection.execute(ins)
-        return self
-
     def set_categories(self, connection):
         event_category = Category(connection)
         event_category.get_categories_in_db()
         event_category.add_event_category(self.name + ' ' + self.description, self.event_id)
         return self
-
-    def category_algo(self, event_string):
-        result = []
-        return result
 
     def get_address(self):
         result = ""
