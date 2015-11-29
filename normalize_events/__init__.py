@@ -100,5 +100,5 @@ def get_event_logs():
     return jsonify(event_logs=event_logs), 200
 
 if __name__ == '__main__':
-    # app.run(debug = True)
+    # app.run(debug=True)
     app.run()
