@@ -54,6 +54,7 @@ def build_select():
             expression.label('city', event.c.city), expression.label('state', event.c.state),
             expression.label('zipcode', event.c.zipcode), expression.label('cost', event.c.cost),
             expression.label('source', event.c.source), expression.label('category', StringAgg(category.c.category)),
+            expression.label('created', event.c.created),
         ]
     ).select_from(j).group_by(event.c.id)
     return query
@@ -68,12 +69,14 @@ def get_events():
 
     if 'event_id' in params:
         query = query.where(event.c.id == params['event_id'])
-    if 'starDate' in params:
-        query = query.where(event.c.date == params['startDate'])
+    if 'startDate' in params:
+        query = query.where(event.c.date >= datetime.strptime(params['startDate'], '%Y-%m-%d'))
     if 'endDate' in params:
-        query = query.where(event.c.date == params['endDate'])
-    if 'created' in params:
-        query = query.where(event.c.created == params['created'])
+        query = query.where(event.c.date <= datetime.strptime(params['endDate'], '%Y-%m-%d'))
+    if 'createdDateStart' in params:
+        query = query.where(event.c.created >= datetime.strptime(params['createdDateStart'], '%Y-%m-%d'))
+    if 'createdDateEnd' in params:
+        query = query.where(event.c.created <= datetime.strptime(params['createdDateEnd'], '%Y-%m-%d'))
     if 'city' in params:
         query = query.where(event.c.city == params['city'])
 
