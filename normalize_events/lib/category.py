@@ -3,6 +3,7 @@ from sqlalchemy.sql import select
 from config import CATEGORY
 from category_lib import food, music
 
+
 class Category(object):
     def __init__(self, connection):
             self.connection = connection

@@ -2,6 +2,7 @@ import requests
 from models import *
 from sqlalchemy.sql import select
 
+
 class Client(object):
     def __init__(self, server, token, source=None):
         self.token = token
