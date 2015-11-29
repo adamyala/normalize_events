@@ -3,7 +3,7 @@ from ..event import Event
 import datetime
 import json
 import helpers as h
-from config import CLIENT_EB
+from config import CLIENT_EB, CATEGORY
 
 
 class EventbriteClient(Client):
@@ -31,7 +31,7 @@ class EventbriteClient(Client):
     def get_page(self, page=1):
         request = self._get('events/search/', {
             'page': page,
-            'categories': CLIENT_EB['categories'],
+            'categories': CLIENT_EB['categories'][CATEGORY],
             'location.address': CLIENT_EB['location_address'],
             'location.within': CLIENT_EB['location_within'],
             'start_date.range_start': datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
