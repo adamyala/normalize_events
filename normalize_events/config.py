@@ -126,5 +126,9 @@ CLIENT_GM = {
     'on': False,
 }
 
-USER_NAME = 'ADD USER HERE'
-PASSWORD = 'ADD SECRET KEY'
+USERS = [
+    {
+        'USER_NAME': 'ADD USER HERE',
+        'PASSWORD': 'ADD SECRET KEY'
+    }
+]

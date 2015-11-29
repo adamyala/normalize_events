@@ -1,5 +1,5 @@
-import config
-from datetime import datetime, timedelta
+from config import USERS
+from datetime import datetime
 from flask import Flask, jsonify, abort, make_response, request
 from flask_httpauth import HTTPBasicAuth
 from lib.models import engine, event, category, eventcategory, eventlog, StringAgg
@@ -23,8 +23,9 @@ def after_request(response):
 
 @auth.get_password
 def get_password(username):
-    if username == config.USER_NAME:
-        return config.PASSWORD
+    for user in USERS:
+        if username == user['USER_NAME']:
+            return user['PASSWORD']
     return None
 
 
