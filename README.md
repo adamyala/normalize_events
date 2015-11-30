@@ -7,9 +7,12 @@ normalize_events takes events from the following sources and creates a normalize
 * [Meetup](http://www.meetup.com/meetup_api/)
 
 Coming soon...
+
 * FaceBook (still working on this one)
 * Universe
 * SeatGeek
+
+[Working example.](normalizevents.us/api/v1.0/events)
 
 # Setup
 
@@ -38,3 +41,26 @@ Run:
 `cron.sh` hits all the sources for events and can be setup as a cron every few hours.
 
 NOTE: Eventbrite limits API hits every 8 hours. Pulling all events at first may take multiple runs.
+
+# Use
+
+The API endpoints are `/events` and `/eventlogs`. Currently the API
+
+Available params for `/events`:
+
+* `/events?event_id=X`
+    * where `X` is your internal id for that event record
+* `/events?city=X`
+    * where `X` is the desired city for returned events
+* `/events?startDate=X`, `/events?endDate=X`, `/events?createdDateStart=X`, `/events?createdDateEnd=X`
+    * where `X` is any date in the `YYYY-MM-DD` or `YYYY-M-D` format
+    * `startDate` specifies the earliest date the returned events will occur
+    * `endDate` specifies the latest date the returned events will occur
+    * `createdDateStart` specifies the earliest date the returned events were added to the database
+    * `createdDateEnd` specifies the latest date the returned events were added to the database
+    
+# Full Example
+
+`normalizevents.us/api/v1.0/events?city=Chicago&startDate=2015-12-1&endDate=2015-12-31&createdDateStart=2015-11-1&createdDateEnd=2015-11-30`
+
+The above example returns all events occurring in December in Chicago that were added to the system in the month of November.
