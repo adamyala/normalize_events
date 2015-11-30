@@ -44,7 +44,7 @@ NOTE: Eventbrite limits API hits every 8 hours. Pulling all events at first may 
 
 # Use
 
-The API endpoints are `/events` and `/eventlogs`. Currently the API
+The API endpoints are `/events` and `/eventlogs`. Currently the API uses Basic HTTP Authorization.
 
 Available params for `/events`:
 
