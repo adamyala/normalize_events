@@ -11,6 +11,7 @@ Coming soon...
 * FaceBook (still working on this one)
 * Universe
 * SeatGeek
+* NightOut
 
 [Working example.](normalizevents.us/api/v1.0/events)
 
