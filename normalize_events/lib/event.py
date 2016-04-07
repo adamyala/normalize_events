@@ -1,7 +1,7 @@
-from eventlog import EventLog
-from models import event, eventcategory, category
+from lib.eventlog import EventLog
+from lib.models import event
 from sqlalchemy.sql import select
-from category import Category
+from lib.category import Category
 
 
 class Event(object):

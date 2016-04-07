@@ -1,24 +1,23 @@
-import sys  
 import re
-import HTMLParser
 import datetime
 from decimal import *
+import html
 
 
 def clean_string(descrip):
-    reload(sys)
-    sys.setdefaultencoding('utf8')
-    h = HTMLParser.HTMLParser()
-    result = h.unescape(descrip)
-    result = result.encode('utf-8').strip()
+    if not descrip:
+        return descrip
+    result = html.unescape(descrip)
     result = re.sub('<[^>]*>', '', result)
     result = result.replace('\n', '')
+    if result is None:
+        return ''
     return result
 
 
 def clean_address(source):
     if source is not None:
-        return re.sub(re.compile("\ *?\((.*?)\)"), "", source)
+        return re.sub(re.compile(" *?\((.*?)\)"), "", source)
     else:
         return source
 

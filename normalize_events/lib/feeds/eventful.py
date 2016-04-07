@@ -1,9 +1,9 @@
-from ..client import Client
-from ..event import Event
+from lib.client import Client
+from lib.event import Event
 import json
 import datetime
-import helpers as h
-import re
+import lib.feeds.helpers as h
+from config import CATEGORY
 from config import CLIENT_EF
 
 

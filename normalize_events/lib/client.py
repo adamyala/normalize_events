@@ -1,5 +1,5 @@
 import requests
-from models import *
+from lib.models import *
 from sqlalchemy.sql import select
 
 

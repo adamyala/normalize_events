@@ -1,4 +1,4 @@
-from models import engine
+from lib.models import engine
 
 
 class PopDb(object):

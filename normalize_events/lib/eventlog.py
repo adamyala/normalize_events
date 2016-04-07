@@ -1,4 +1,4 @@
-from models import eventlog
+from lib.models import eventlog
 
 
 class EventLog(object):
