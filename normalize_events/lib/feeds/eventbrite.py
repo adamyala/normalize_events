@@ -77,12 +77,9 @@ class EventbriteClient(Client):
             return False
 
         try:
-            curr_event = Event()
-            event_detail = self.get_event_detail(event_id)
             curr_event.name = h.clean_string(event_detail['name']['text'])
             curr_event.date = datetime.datetime.strptime(event_detail['start']['local'], '%Y-%m-%dT%H:%M:%S')
             curr_event.description = h.clean_string(event_detail['description']['text'])
-            curr_event.link = event_detail['url']
             curr_event.api = event_detail['resource_uri'] + '?token=' + self.token
             curr_venue = self.get_event_venue(event_detail['venue_id'])
             curr_event.place = h.clean_address(curr_venue['name'])
@@ -105,8 +102,9 @@ class EventbriteClient(Client):
                 invalid.insert(self.connection)
 
             return curr_event
-        except:
-            return False
+        except KeyError:
+            # TODO: Add real exception handling or remove this
+            print(event_id)
 
     def get_events(self):
         event_ids = self.get_event_ids()
