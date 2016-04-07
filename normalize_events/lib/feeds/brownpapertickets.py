@@ -1,7 +1,7 @@
 from ..client import Client
 from ..event import Event
 import datetime
-import xml.etree.ElementTree as ET
+from xml.etree import ElementTree
 from bs4 import BeautifulSoup
 import lib.feeds.helpers as h
 from config import CLIENT_BPT, CATEGORY
@@ -46,7 +46,8 @@ class BPTClient(Client):
             'event_id': event_id,
             'id': self.token
             })
-        event = ET.fromstring(response.text.encode('utf-8')).find('event')
+        event = ElementTree.fromstring(response.text.encode('utf-8')).find('event')
+
         result = Event()
         try:
             result.name = h.clean_string(event.find('title').text)
@@ -69,7 +70,7 @@ class BPTClient(Client):
             'event_id': event_id,
             'id': self.token
             })
-        dates = ET.fromstring(response.text.encode('utf-8')).findall('date')
+        dates = ElementTree.fromstring(response.text.encode('utf-8')).findall('date')
         result = {
             'date': datetime.datetime.strptime('2050-01-01', '%Y-%m-%d'),
             'date_api': response.url
@@ -89,7 +90,7 @@ class BPTClient(Client):
             'date_id': date_id,
             'id': self.token
             })
-        prices = ET.fromstring(response.text.encode('utf-8')).findall('price')
+        prices = ElementTree.fromstring(response.text.encode('utf-8')).findall('price')
         event_cost = {
             'cost': 9999.00,
             'cost_api': response.url
