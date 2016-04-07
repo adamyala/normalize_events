@@ -34,6 +34,7 @@ class Event(object):
             try:
                 getattr(self, requirement)
             except:
+                # TODO: catch statement too broad
                 return EventLog(self.name, requirement, self.link, self.api)
         return False
 
