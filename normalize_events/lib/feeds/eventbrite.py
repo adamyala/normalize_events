@@ -39,11 +39,11 @@ class EventbriteClient(Client):
         return json.loads(request.text)
 
     def get_event_detail(self, event_id):
-        thingy = json.loads(self._get('events/{event_id}/'.format(event_id=event_id),
-            None,
-            {'Authorization': 'Bearer ' + self.token}
-            ).text)
-        return thingy
+        return json.loads(
+            self._get(
+                url='events/{event_id}/'.format(event_id=event_id),
+                headers={'Authorization': 'Bearer ' + self.token}).text
+            )
 
     def get_event_venue(self, venue_id):
         return json.loads(self._get(
