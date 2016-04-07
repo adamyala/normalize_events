@@ -19,13 +19,19 @@ Coming soon...
 
 Clone the repository.
 
-```bash
+```
 git clone git@github.com:adamyala/normalize_events.git
+```
+
+NOTE: If psycopg2 fails to install on MacOS, add the following to your `~/.profile`.
+
+```
+PATH="/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH"
 ```
 
 Install all dependencies.
 
-```bash
+```
 cd normalize_events && pip install -r requirements.txt
 ```
 
@@ -33,6 +39,10 @@ Make sure PostgreSQL is running. Default URI is:
 ```
 postgres://localhost:5432/events
 ```
+
+In `config.py`, set the `CATEGORY` variable to the event category you'd like to download.
+
+Then run `python models.py` so the SQLAlchemy engine creates all required tables.
 
 Run:
 ```
