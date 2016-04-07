@@ -58,11 +58,14 @@ class EventbriteClient(Client):
             None,
             {'Authorization': 'Bearer ' + self.token}
             ).text)['ticket_classes']
-        cost = ticket_prices[0]['cost']['value']
+        cost = 0
         for ticket_price in ticket_prices:
-            if ticket_price['cost']['value'] < cost:
-                cost = ticket_price['cost']['value']
-        return cost/1000
+            if ticket_price['free'] or ticket_price['donation']:
+                return cost
+            new_cost = (ticket_price['cost']['value'] + ticket_price['fee']['value'])/100
+            if new_cost < cost or cost is 0:
+                cost = new_cost
+        return cost
 
     def build_event(self, event_id):
         try:
