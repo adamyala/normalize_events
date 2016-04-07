@@ -44,11 +44,11 @@ class Event(object):
         return True if event_dupe > 0 else False
 
     def is_invalid(self, connection):
-        completeness = self.is_incomplete()
-        if type(completeness) is bool:
-            return completeness or self.is_duplicate(connection)
+        incompleteness = self.is_incomplete()
+        if type(incompleteness) is bool and incompleteness is True:
+            return incompleteness or self.is_duplicate(connection)
         else:
-            return completeness
+            return incompleteness
 
     def insert(self, connection):
         ins = event.insert().values(
