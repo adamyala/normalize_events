@@ -14,7 +14,7 @@ class EventfulClient(Client):
     def get_page(self, page_number=1):
         return json.loads(self._get('search/', {
             'app_key': self.token,
-            'category': CLIENT_EF['category'],
+            'category': CLIENT_EF['category'][CATEGORY],
             'location': CLIENT_EF['location'],
             'date': 'Future',
             'page_size': 10,

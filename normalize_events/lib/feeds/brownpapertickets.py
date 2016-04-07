@@ -4,7 +4,7 @@ import datetime
 import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
 import lib.feeds.helpers as h
-from config import CLIENT_BPT
+from config import CLIENT_BPT, CATEGORY
 
 
 class BPTClient(Client):
@@ -20,7 +20,7 @@ class BPTClient(Client):
             source = self._get('browse.html', {
                 'start_date': datetime.date.today().strftime('%m/%d/%y'),
                 'end_date': '12/31/2020',
-                'category_id': CLIENT_BPT['category_id'],
+                'category_id': CLIENT_BPT['category_id'][CATEGORY],
                 'state': CLIENT_BPT['state'],
                 'country': CLIENT_BPT['country'],
                 'page': page
