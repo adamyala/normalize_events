@@ -49,21 +49,18 @@ class BPTClient(Client):
         event = ElementTree.fromstring(response.text.encode('utf-8')).find('event')
 
         result = Event()
-        try:
-            result.name = h.clean_string(event.find('title').text)
-            result.description = h.clean_string(event.find('description').text) + ' ' + h.clean_string(event.find('e_description').text)
-            result.place = h.clean_address(event.find('e_address1').text)
-            result.address1 = h.clean_address(event.find('e_address2').text)
-            result.city = h.clean_city(event.find('e_city').text)
-            result.state = event.find('e_state').text
-            result.zipcode = event.find('e_zip').text
-            result.link = event.find('link').text
-            result.api = [response.url]
-            result.source = 'Brown Paper Tickets'
-            result.api_id = event_id
-            return result
-        except:
-            return False
+        result.name = h.clean_string(event.find('title').text)
+        result.description = h.clean_string(event.find('description').text) + ' ' + h.clean_string(event.find('e_description').text)
+        result.place = h.clean_address(event.find('e_address1').text)
+        result.address1 = h.clean_address(event.find('e_address2').text)
+        result.city = h.clean_city(event.find('e_city').text)
+        result.state = event.find('e_state').text
+        result.zipcode = event.find('e_zip').text
+        result.link = event.find('link').text
+        result.api = [response.url]
+        result.source = 'Brown Paper Tickets'
+        result.api_id = event_id
+        return result
 
     def get_event_date(self, event_id):
         response = self._get('api2/datelist', {
