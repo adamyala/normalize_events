@@ -68,6 +68,14 @@ class EventbriteClient(Client):
         return cost
 
     def build_event(self, event_id):
+        # Eventbrite limits API calls severly, so we check to see if we already have
+        # the event in the database before wasting API calls
+        curr_event = Event()
+        event_detail = self.get_event_detail(event_id)
+        curr_event.link = event_detail['url']
+        if curr_event.is_duplicate(self.connection):
+            return False
+
         try:
             curr_event = Event()
             event_detail = self.get_event_detail(event_id)
@@ -86,6 +94,16 @@ class EventbriteClient(Client):
             curr_event.cost = self.get_ticket_cost(event_detail['id'])
             curr_event.source = self.source
             curr_event.api_id = event_detail['id']
+
+            # We also do inserts here because the API can give us API limit errors at anytime.
+            # The is_valid check later will not insert dupes.
+            invalid = curr_event.is_invalid(self.connection)
+            if invalid is False:
+                curr_event.insert(self.connection)
+                curr_event.set_categories(self.connection)
+            elif type(invalid) is not bool:
+                invalid.insert(self.connection)
+
             return curr_event
         except:
             return False
