@@ -2,13 +2,13 @@ from ..client import Client
 from ..event import Event
 import datetime
 import json
-import helpers as h
+import lib.feeds.helpers as h
 from config import CLIENT_EB, CATEGORY
 
 
 class EventbriteClient(Client):
-    def __init__(self, server, token, source):
-        Client.__init__(self, server, token, source)
+    def __init__(self, server, token):
+        Client.__init__(self, server, token, 'Eventbrite')
 
     def get_event_ids(self):
         first_page = self.get_page()

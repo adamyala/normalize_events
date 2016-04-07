@@ -12,8 +12,7 @@ CATEGORY = ''
 CLIENT_EB = {
     'token': '',
     'url': 'https://www.eventbriteapi.com/v3',
-    'source': 'Eventbrite',
-    'location_address': 'Urbana,IL',
+    'location_address': 'Chicago,IL',
     'location_within': '25mi',
     'categories': {
         'Business': '101',
@@ -41,7 +40,6 @@ CLIENT_EB = {
 CLIENT_BPT = {
     'token': '',
     'url': 'https://www.brownpapertickets.com',
-    'source': 'Brown Paper Tickets',
     'state': 'IL',
     'country': 'United States',
     'category_id': {
@@ -59,7 +57,6 @@ CLIENT_BPT = {
 CLIENT_MU = {
     'token': '',
     'url': 'https://api.meetup.com',
-    'source': 'Meetup',
     'state': 'IL',
     'category': {
         'Arts': '1',

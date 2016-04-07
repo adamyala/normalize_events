@@ -13,10 +13,10 @@ def main():
     pop_db = PopDb(
         [
             # TestClient(),
-            # BPTClient(CLIENT_BPT['url'], CLIENT_BPT['token'], CLIENT_BPT['source']),
-            MeetupClient(CLIENT_MU['url'], CLIENT_MU['token'], CLIENT_MU['source']),
-            # EventbriteClient(CLIENT_EB['url'], CLIENT_EB['token'], CLIENT_EB['source']),
-            # EventfulClient(CLIENT_EF['url'], CLIENT_EF['token'], CLIENT_EF['source']),
+            BPTClient(CLIENT_BPT['url'], CLIENT_BPT['token']),
+            MeetupClient(CLIENT_MU['url'], CLIENT_MU['token']),
+            EventbriteClient(CLIENT_EB['url'], CLIENT_EB['token']),
+            EventfulClient(CLIENT_EF['url'], CLIENT_EF['token']),
         ]
     )
     pop_db.set_events()

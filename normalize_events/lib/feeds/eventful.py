@@ -8,8 +8,8 @@ from config import CLIENT_EF
 
 
 class EventfulClient(Client):
-    def __init__(self, server, token, source):
-        Client.__init__(self, server, token, source)
+    def __init__(self, server, token):
+        Client.__init__(self, server, token, 'Eventful')
 
     def get_page(self, page_number=1):
         return json.loads(self._get('search/', {

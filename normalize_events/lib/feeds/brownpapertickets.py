@@ -3,13 +3,13 @@ from ..event import Event
 import datetime
 import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
-import helpers as h
+import lib.feeds.helpers as h
 from config import CLIENT_BPT
 
 
 class BPTClient(Client):
-    def __init__(self, server, token, source):
-        Client.__init__(self, server, token, source)
+    def __init__(self, server, token):
+        Client.__init__(self, server, token, 'Brown Paper Tickets')
 
     def get_event_ids(self):
         page = 0

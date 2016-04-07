@@ -2,17 +2,16 @@ from ..client import Client
 from ..event import Event
 import json
 import datetime
-import helpers as h
+import lib.feeds.helpers as h
 from config import CLIENT_MU, CATEGORY
 
 
 class MeetupClient(Client):
-    def __init__(self, server, token, source):
-        Client.__init__(self, server, token, source)
+    def __init__(self, server, token):
+        Client.__init__(self, server, token, 'Meetup')
 
     def get_json(self):
         return json.loads(self._get('/2/open_events', {
-            'sign': 'true',
             'state': CLIENT_MU['state'],
             'category': CLIENT_MU['category'][CATEGORY],
             'status': 'upcoming',
