@@ -13,7 +13,7 @@ Coming soon...
 * SeatGeek
 * NightOut
 
-[Working example.](normalizevents.us/api/v1.0/events)
+[Working example.](http://normalizevents.us/api/v1.0/events)
 
 # Setup
 
@@ -72,6 +72,6 @@ Available params for `/events`:
     
 # Full Example
 
-`normalizevents.us/api/v1.0/events?city=Chicago&startDate=2015-12-1&endDate=2015-12-31&createdDateStart=2015-11-1&createdDateEnd=2015-11-30`
+`http://normalizevents.us/api/v1.0/events?city=Chicago&startDate=2015-12-1&endDate=2015-12-31&createdDateStart=2015-11-1&createdDateEnd=2015-11-30`
 
 The above example returns all events occurring in December in Chicago that were added to the system in the month of November.
