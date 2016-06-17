@@ -82,7 +82,7 @@ CLIENT_MU = {
     },
 }
 CLIENT_EF = {
-    'token': 'GvbGL2972GVMdQZZ',
+    'token': '',
     'url': 'http://api.eventful.com/json/events/search',
     'location': 'Chicago',
     'category': {
