@@ -35,6 +35,7 @@ class Event(object):
                 getattr(self, requirement)
             except:
                 # TODO: catch statement too broad
+                # TODO: check for NoneType on all fields
                 return EventLog(self.name, requirement, self.link, self.api)
         return False
 
