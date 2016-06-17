@@ -32,10 +32,9 @@ class Event(object):
             ]
         for requirement in requirements:
             try:
-                getattr(self, requirement)
-            except:
-                # TODO: catch statement too broad
-                # TODO: check for NoneType on all fields
+                if getattr(self, requirement) is None:
+                    return EventLog(self.name, requirement, self.link, self.api)
+            except AttributeError:
                 return EventLog(self.name, requirement, self.link, self.api)
         return False
 

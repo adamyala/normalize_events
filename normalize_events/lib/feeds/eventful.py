@@ -38,14 +38,14 @@ class EventfulClient(Client):
             curr_event.zipcode = event['postal_code']
             curr_event.cost = 0 if 'cost' not in event else event['cost']
             curr_event.link = event['url']
-            curr_event.api = 'http://api.eventful.com/rest/events/get?app_key=' + self.token + '=' + event['id']
+            curr_event.api = 'http://api.eventful.com/rest/events/get?app_key=' + self.token + '&id=' + event['id']
             curr_event.source = self.source
             curr_event.api_id = event['id']
             result.append(curr_event)
         return result
 
     def get_events(self):
-        first_page = self.get_page(1)
+        first_page = self.get_page()
         pages = int(first_page['page_count'])
         result = []
         result.extend(self.parse_page(first_page))

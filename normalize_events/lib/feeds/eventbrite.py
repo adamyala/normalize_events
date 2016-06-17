@@ -68,7 +68,7 @@ class EventbriteClient(Client):
         return cost
 
     def build_event(self, event_id):
-        # Eventbrite limits API calls severly, so we check to see if we already have
+        # Eventbrite limits API calls severely, so we check to see if we already have
         # the event in the database before wasting API calls
         curr_event = Event()
         event_detail = self.get_event_detail(event_id)
