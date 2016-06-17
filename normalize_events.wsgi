@@ -5,7 +5,7 @@ app_name = "normalize_events"
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,'/var/www/' + app_name + '/')
+sys.path.insert(0, '/var/www/' + app_name + '/')
 
 import os
 import site
@@ -17,7 +17,7 @@ sys.path.append('/var/www/' + app_name)
 sys.path.append('/var/www/' + app_name + '/' + app_name)
 
 # Activate your virtual env
-activate_env=os.path.expanduser('/var/www/' + app_name + '/venv/bin/activate_this.py')
+activate_env = os.path.expanduser('/var/www/' + app_name + '/venv/bin/activate_this.py')
 execfile(activate_env, dict(__file__=activate_env))
 
 from normalize_events import app as application

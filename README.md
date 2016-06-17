@@ -23,19 +23,14 @@ Clone the repository.
 git clone git@github.com:adamyala/normalize_events.git
 ```
 
-NOTE: If psycopg2 fails to install on MacOS, add the following to your `~/.profile`.
-
-```
-PATH="/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH"
-```
-
 Install all dependencies.
 
 ```
 cd normalize_events && pip install -r requirements.txt
 ```
 
-Make sure PostgreSQL is running. Default URI is:
+Make sure PostgreSQL is running and that a database called `events` exists. Default URI is:
+
 ```
 postgres://localhost:5432/events
 ```
@@ -44,14 +39,27 @@ In `config.py`, set the `CATEGORY` variable to the event category you'd like to 
 
 Then run `python models.py` so the SQLAlchemy engine creates all required tables.
 
-Run:
+Before loading the database you have to go into `config.py` and set the API tokens for each of the APIs you'd like to use. Then run:
 ```
 ./cron.sh
 ```
 
-`cron.sh` hits all the sources for events and can be setup as a cron every few hours.
+`cron.sh` hits all the uncommented sources for events and can be setup as a cron every few hours.
 
 NOTE: Eventbrite limits API hits every 8 hours. Pulling all events at first may take multiple runs.
+
+## Troubleshooting
+
+NOTE: If `psycopg2` fails to install with the error "unable to install psycopg2 because pg_config executable not found", and you're using the [Postgress.app](http://postgresapp.com/) on MacOS, the path to Postgress.app has to be added to the virtual environment. Try the below.
+
+```
+# Activate your virtual environment
+source /path/to/you/env/activate
+# Add Postgress to your virtual environment. This is only temporary, so it'll disappear as soon as you deactivate the virtual environment.
+PATH="/Applications/Postgres.app/Contents/Versions/YOUR_VERSION_NUMBER/bin:$PATH"
+# Install psycopg2
+pip install psycopg2
+```
 
 # Use
 
