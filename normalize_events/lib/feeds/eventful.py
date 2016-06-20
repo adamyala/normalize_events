@@ -26,7 +26,6 @@ class EventfulClient(Client):
         result = []
         for event in events_json['events']['event']:
             curr_event = Event()
-            curr_event.source = 'Eventful'
             curr_event.name = h.clean_string(event['title'])
             curr_event.description = h.clean_string(event['description'])
             curr_event.date = datetime.datetime.strptime(event['start_time'], "%Y-%m-%d %H:%M:%S")
