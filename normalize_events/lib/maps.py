@@ -1,6 +1,7 @@
 from lib.client import Client
 import os
 import shutil
+import requests
 
 
 class MapClient(Client):
@@ -23,3 +24,16 @@ class MapClient(Client):
             return True
         else:
             return False
+
+    def breakdown_address(self, address_string):
+        components = requests.get(
+            url='https://maps.googleapis.com/maps/api/geocode/json',
+            params={'address': address_string}
+        ).json()['results'][0]['address_components']
+        address_dict = {x['types'][0]: x['short_name'] for x in components}
+        return {
+            'address1': address_dict['street_number'] + ' ' + address_dict['route'],
+            'city': address_dict['locality'],
+            'state': address_dict['administrative_area_level_1'],
+            'zipcode': address_dict['postal_code'],
+        }

@@ -116,6 +116,24 @@ CLIENT_EF = {
         'Other': 'other',
     },
 }
+CLIENT_UNI = {
+    'url': 'https://discover.universe.com/api/v2/discover_events',
+    'category': {
+        'Business': 'business',
+        'Comedy': 'comedy',
+        'Crafts': 'crafts',
+        'Fashion': 'fashion',
+        'Film': 'film',
+        'Food': 'food-drink',
+        'History': 'galleries-museums',
+        'Music': 'music',
+        'Arts': 'performing-arts',
+        'Social': 'social',
+        'Sports': 'sports',
+        'Tech': 'tech',
+        'Other': 'other',
+    }
+}
 CLIENT_GM = {
     'token': '',
     'url': 'https://maps.googleapis.com/',
