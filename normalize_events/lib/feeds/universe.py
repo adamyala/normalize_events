@@ -12,7 +12,7 @@ import time
 # TODO: Add parsing that validates region (i.e. IL, Chicago, Midwest, etc... )
 class UniverseClient(Client):
     def __init__(self, server):
-        Client.__init__(self, server, 'Universe')
+        Client.__init__(self, server, '', 'Universe')
 
     def get_page(self, offset=0):
         return json.loads(self._get('', {
@@ -42,7 +42,7 @@ class UniverseClient(Client):
             curr_event.zipcode = address_dict['zipcode']
             curr_event.cost = 0 if 'price' not in event else event['price']
             curr_event.link = event['ticket_url']
-            curr_event.api = 'https://www.universe.com/api/v2/event_id/' + event['id']
+            curr_event.api = 'https://www.universe.com/api/v2/event_id/' + str(event['id'])
             curr_event.source = self.source
             curr_event.api_id = event['id']
             result.append(curr_event)
