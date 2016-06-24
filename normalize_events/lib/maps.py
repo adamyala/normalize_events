@@ -1,12 +1,13 @@
-from lib.client import Client
 import os
 import shutil
 import requests
+from lib.client import Client
+from config import CLIENT_GM
 
 
 class MapClient(Client):
-    def __init__(self, server, token):
-        Client.__init__(self, server, token)
+    def __init__(self):
+        Client.__init__(self, CLIENT_GM['url'], CLIENT_GM['token'])
 
     def download_map(self, address, event_id):
         request = self._get('maps/api/staticmap', {
