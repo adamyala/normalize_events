@@ -6,7 +6,6 @@ from dateutil import parser
 import lib.feeds.helpers as h
 from lib.maps import MapClient
 import json
-import datetime
 import time
 
 
@@ -18,7 +17,7 @@ class UniverseClient(Client):
     def get_page(self, offset=0):
         return json.loads(self._get('', {
             'query': CLIENT_UNI['category'][CATEGORY],
-            'after': time.mktime(datetime.now().timetuple()),
+            'after': int(time.mktime(datetime.now().timetuple())),
             'latitude': 41.85069,
             'longitude': -87.65005,
             'limit': 50,
