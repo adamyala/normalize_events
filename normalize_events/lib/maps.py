@@ -26,13 +26,26 @@ class MapClient(Client):
             return False
 
     def breakdown_address(self, address_string):
-        components = requests.get(
+        results = requests.get(
             url='https://maps.googleapis.com/maps/api/geocode/json',
             params={'address': address_string}
-        ).json()['results'][0]['address_components']
+        ).json()['results']
+
+        if not results:
+            return False
+
+        components = results[0]['address_components']
         address_dict = {x['types'][0]: x['short_name'] for x in components}
+
+        if not all(key in address_dict for key in (
+            'locality', 'administrative_area_level_1', 'postal_code'
+        )):
+            return False
+
         return {
-            'address1': address_dict['street_number'] + ' ' + address_dict['route'],
+            'address1': ' '.join([
+                address_dict.get('street_number', ''), address_dict.get('route', '')
+            ]),
             'city': address_dict['locality'],
             'state': address_dict['administrative_area_level_1'],
             'zipcode': address_dict['postal_code'],

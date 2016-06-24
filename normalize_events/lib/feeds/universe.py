@@ -28,7 +28,11 @@ class UniverseClient(Client):
         result = []
         map_client = MapClient()
         for event in events_json['discover_events']:
+            if not event['address']:
+                continue
             address_dict = map_client.breakdown_address(event['address'])
+            if not address_dict:
+                continue
 
             curr_event = Event()
             curr_event.name = h.clean_string(event['title'])
