@@ -1,15 +1,14 @@
+import json
+import time
+from datetime import datetime
+from dateutil import parser
 from config import CLIENT_UNI, CATEGORY
 from lib.client import Client
 from lib.event import Event
-from datetime import datetime
-from dateutil import parser
-import lib.feeds.helpers as h
+from lib.feeds import helpers
 from lib.maps import MapClient
-import json
-import time
 
 
-# TODO: Add parsing that validates region (i.e. IL, Chicago, Midwest, etc... )
 class UniverseClient(Client):
     def __init__(self, server):
         Client.__init__(self, server, '', 'Universe')
@@ -35,8 +34,8 @@ class UniverseClient(Client):
                 continue
 
             curr_event = Event()
-            curr_event.name = h.clean_string(event['title'])
-            curr_event.description = h.clean_string(event['description'])
+            curr_event.name = helpers.clean_string(event['title'])
+            curr_event.description = helpers.clean_string(event['description'])
             curr_event.date = parser.parse(event['start_time'])
             curr_event.place = event['location']
             curr_event.address1 = address_dict['address1']
@@ -63,4 +62,3 @@ class UniverseClient(Client):
             result.extend(self.parse_page(self.get_page(events_done)))
             events_done += 50
         return result
-
