@@ -40,7 +40,7 @@ class UniverseClient(Client):
             curr_event.city = address_dict['city']
             curr_event.state = address_dict['state']
             curr_event.zipcode = address_dict['zipcode']
-            curr_event.cost = 0 if 'price' not in event else event['price']
+            curr_event.cost = 0 if not event['price'] else event['price']
             curr_event.link = event['ticket_url']
             curr_event.api = 'https://www.universe.com/api/v2/event_id/' + str(event['id'])
             curr_event.source = self.source
@@ -50,7 +50,7 @@ class UniverseClient(Client):
 
     def get_events(self):
         first_page = self.get_page()
-        total_events = int(first_page['page_count'])
+        total_events = int(first_page['meta']['count'])
         result = []
         events_done = 0
         result.extend(self.parse_page(first_page))
