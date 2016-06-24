@@ -10,7 +10,7 @@ from lib.maps import MapClient
 
 
 def main():
-    map_client = MapClient(CLIENT_GM['url'], CLIENT_GM['token'])
+    map_client = MapClient()
     pop_db = PopDb(
         [
             # TestClient(),
@@ -18,6 +18,7 @@ def main():
             MeetupClient(CLIENT_MU['url'], CLIENT_MU['token']),
             EventbriteClient(CLIENT_EB['url'], CLIENT_EB['token']),
             EventfulClient(CLIENT_EF['url'], CLIENT_EF['token']),
+            UniverseClient(CLIENT_UNI['url'])
         ]
     )
     pop_db.set_events()
