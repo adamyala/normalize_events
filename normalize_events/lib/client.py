@@ -1,6 +1,6 @@
 import requests
-from lib.models import *
 from sqlalchemy.sql import select
+from lib.models import engine, event
 
 
 class Client(object):

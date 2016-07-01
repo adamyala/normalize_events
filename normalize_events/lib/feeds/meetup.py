@@ -1,9 +1,9 @@
-from ..client import Client
-from ..event import Event
-import json
 import datetime
-import lib.feeds.helpers as h
+import json
 from config import CLIENT_MU, CATEGORY
+from lib.client import Client
+from lib.event import Event
+from lib.feeds import helpers
 
 
 class MeetupClient(Client):
@@ -23,13 +23,13 @@ class MeetupClient(Client):
         for event in events:
             if 'venue' in event and 'state' in event['venue'] and event['venue']['state'] == 'IL':
                 curr_event = Event()
-                curr_event.name = h.clean_string(event['name'])
-                curr_event.description = h.clean_string(event['description'])
+                curr_event.name = helpers.clean_string(event['name'])
+                curr_event.description = helpers.clean_string(event['description'])
                 curr_event.date = datetime.datetime.fromtimestamp(event['time']/1000)
                 curr_event.place = event['venue']['name']
-                curr_event.address1 = h.clean_address(event['venue']['address_1'])
+                curr_event.address1 = helpers.clean_address(event['venue']['address_1'])
                 curr_event.address2 = None
-                curr_event.city = h.clean_city(event['venue']['city'])
+                curr_event.city = helpers.clean_city(event['venue']['city'])
                 curr_event.state = event['venue']['state']
                 curr_event.zipcode = event['venue']['zip'] if 'zip' in event['venue'] else None
                 if 'fee' in event and 'amount' in event['fee']:

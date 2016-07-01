@@ -1,7 +1,7 @@
-from lib.eventlog import EventLog
-from lib.models import event
 from sqlalchemy.sql import select
 from lib.category import Category
+from lib.eventlog import EventLog
+from lib.models import event
 
 
 class Event(object):

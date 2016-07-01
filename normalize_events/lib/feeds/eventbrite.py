@@ -1,9 +1,9 @@
-from ..client import Client
-from ..event import Event
 import datetime
 import json
-import lib.feeds.helpers as h
 from config import CLIENT_EB, CATEGORY
+from lib.client import Client
+from lib.event import Event
+from lib.feeds import helpers
 
 
 class EventbriteClient(Client):
@@ -77,15 +77,15 @@ class EventbriteClient(Client):
             return False
 
         try:
-            curr_event.name = h.clean_string(event_detail['name']['text'])
+            curr_event.name = helpers.clean_string(event_detail['name']['text'])
             curr_event.date = datetime.datetime.strptime(event_detail['start']['local'], '%Y-%m-%dT%H:%M:%S')
-            curr_event.description = h.clean_string(event_detail['description']['text'])
+            curr_event.description = helpers.clean_string(event_detail['description']['text'])
             curr_event.api = event_detail['resource_uri'] + '?token=' + self.token
             curr_venue = self.get_event_venue(event_detail['venue_id'])
-            curr_event.place = h.clean_address(curr_venue['name'])
-            curr_event.address1 = h.clean_address(curr_venue['address']['address_1'])
-            curr_event.address2 = h.clean_address(curr_venue['address']['address_2'])
-            curr_event.city = h.clean_city(curr_venue['address']['city'])
+            curr_event.place = helpers.clean_address(curr_venue['name'])
+            curr_event.address1 = helpers.clean_address(curr_venue['address']['address_1'])
+            curr_event.address2 = helpers.clean_address(curr_venue['address']['address_2'])
+            curr_event.city = helpers.clean_city(curr_venue['address']['city'])
             curr_event.state = curr_venue['address']['region']
             curr_event.zipcode = curr_venue['address']['postal_code']
             curr_event.cost = self.get_ticket_cost(event_detail['id'])

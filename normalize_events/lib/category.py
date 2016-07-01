@@ -1,6 +1,6 @@
-from lib.models import eventcategory, category
 from sqlalchemy.sql import select
 from config import CATEGORY
+from lib.models import eventcategory, category
 from lib.category_lib import food, music
 
 

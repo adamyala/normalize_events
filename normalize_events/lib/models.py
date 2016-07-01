@@ -1,9 +1,9 @@
-import config
 from sqlalchemy import create_engine, func, Column, Table, MetaData
 from sqlalchemy import Integer, String, DateTime, Numeric, ForeignKey
 from sqlalchemy.engine.url import URL
-from sqlalchemy.sql import expression
 from sqlalchemy.ext import compiler
+from sqlalchemy.sql import expression
+import config
 
 
 class StringAgg(expression.FunctionElement):

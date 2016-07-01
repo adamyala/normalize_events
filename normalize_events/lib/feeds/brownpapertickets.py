@@ -1,10 +1,10 @@
-from ..client import Client
-from ..event import Event
 import datetime
-from xml.etree import ElementTree
 from bs4 import BeautifulSoup
-import lib.feeds.helpers as h
+from xml.etree import ElementTree
 from config import CLIENT_BPT, CATEGORY
+from lib.client import Client
+from lib.event import Event
+from lib.feeds import helpers
 
 
 class BPTClient(Client):

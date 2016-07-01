@@ -1,10 +1,9 @@
+import datetime
+import json
+from config import CATEGORY, CLIENT_EF
 from lib.client import Client
 from lib.event import Event
-import json
-import datetime
-import lib.feeds.helpers as h
-from config import CATEGORY
-from config import CLIENT_EF
+from lib.feeds import helpers
 
 
 class EventfulClient(Client):
@@ -26,13 +25,13 @@ class EventfulClient(Client):
         result = []
         for event in events_json['events']['event']:
             curr_event = Event()
-            curr_event.name = h.clean_string(event['title'])
-            curr_event.description = h.clean_string(event['description'])
+            curr_event.name = helpers.clean_string(event['title'])
+            curr_event.description = helpers.clean_string(event['description'])
             curr_event.date = datetime.datetime.strptime(event['start_time'], "%Y-%m-%d %H:%M:%S")
             curr_event.place = event['venue_name']
-            curr_event.address1 = h.clean_address(event['venue_address'])
+            curr_event.address1 = helpers.clean_address(event['venue_address'])
             curr_event.address2 = None
-            curr_event.city = h.clean_city(event['city_name'])
+            curr_event.city = helpers.clean_city(event['city_name'])
             curr_event.state = event['region_abbr']
             curr_event.zipcode = event['postal_code']
             curr_event.cost = 0 if 'cost' not in event else event['cost']

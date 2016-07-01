@@ -1,7 +1,7 @@
-import re
 import datetime
-from decimal import *
 import html
+import re
+from decimal import Decimal
 
 
 def clean_string(descrip):
