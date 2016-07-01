@@ -34,7 +34,10 @@ class Category(object):
         event_categories = self.category_objs[CATEGORY].get_categories_for_insert(event_string)
         for event_category in event_categories:
             if event_category in self.categories_in_db:
-                ins = eventcategory.insert().values(event_id=event_id, category_id=self.categories_in_db[event_category])
+                ins = eventcategory.insert().values(
+                    event_id=event_id,
+                    category_id=self.categories_in_db[event_category]
+                )
                 self.connection.execute(ins)
             else:
                 category_id = self.add_category_to_db(event_category)

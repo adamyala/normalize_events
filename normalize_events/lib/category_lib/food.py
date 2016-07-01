@@ -11,6 +11,6 @@ class Food(object):
         for category in self.categories:
             if category.lower() in event_string.lower():
                 result.append(category)
-        if result == []:
+        if not result:
             return ['Other']
         return result
