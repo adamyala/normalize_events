@@ -1,9 +1,21 @@
 class Food(object):
     def __init__(self):
             self.categories = [
-                'Beer', 'Cheese', 'Chocolate', 'Cocktail', 'Coffee',
-                'Dinner', 'Education', 'Food', 'Liquor', 'Other',
-                'Spirits', 'Whiskey', 'Wine',
+                'BBQ',
+                'Beer',
+                'Cheese',
+                'Chocolate',
+                'Cocktail',
+                'Coffee',
+                'Dinner',
+                'Education',
+                'Food',
+                'Liquor',
+                'Lunch', 
+                'Spirits',
+                'Whiskey',
+                'Wine',
+                'Vegetarian'
             ]
 
     def get_categories_for_insert(self, event_string):
