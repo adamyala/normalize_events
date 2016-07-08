@@ -3,3 +3,8 @@ venv/*
 .*.pyc
 .idea/
 normalize_events/config.py
+*.log
+normalize_events/__pycache__/
+normalize_events/lib/__pycache__/
+normalize_events/lib/category_lib/__pycache__/
+normalize_events/lib/feeds/__pycache__/

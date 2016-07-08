@@ -43,10 +43,12 @@ class EventfulClient(Client):
         return result
 
     def get_events(self):
+        self.logger.info('%s, running get_events()', __name__)
         first_page = self.get_page()
         pages = int(first_page['page_count'])
         result = []
         result.extend(self.parse_page(first_page))
         for page in range(2, pages + 1):
             result.extend(self.parse_page(self.get_page(page)))
+        self.logger.info('%s, finished get_events()', __name__)
         return result

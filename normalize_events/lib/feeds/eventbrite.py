@@ -12,7 +12,13 @@ class EventbriteClient(Client):
 
     def get_event_ids(self):
         first_page = self.get_page()
-        pages = int(first_page['pagination']['page_count'])
+
+        pages = 0
+        try:
+            pages = int(first_page['pagination']['page_count'])
+        except KeyError:
+            self.logger.exception('eventbrite auth error', first_page)
+
         event_ids = []
         event_ids.extend(self.parse_event_ids(first_page['events']))
         for page in range(2, pages + 1):
@@ -104,13 +110,19 @@ class EventbriteClient(Client):
             return curr_event
         except KeyError:
             # TODO: Add real exception handling or remove this
-            print(event_id)
+            self.logger.exception(
+                'eventbrite event parsing error',
+                event_detail,
+                event_detail['id']
+            )
 
     def get_events(self):
+        self.logger.info('%s, running get_events()', __name__)
         event_ids = self.get_event_ids()
         result = []
         for event_id in event_ids:
             curr_event = self.build_event(event_id)
             if curr_event:
                 result.append(curr_event)
+        self.logger.info('%s, finished get_events()', __name__)
         return result

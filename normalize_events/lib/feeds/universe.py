@@ -52,6 +52,7 @@ class UniverseClient(Client):
         return result
 
     def get_events(self):
+        self.logger.info('%s, running get_events()', __name__)
         first_page = self.get_page()
         total_events = int(first_page['meta']['count'])
         result = []
@@ -61,4 +62,5 @@ class UniverseClient(Client):
         while events_done < total_events:
             result.extend(self.parse_page(self.get_page(events_done)))
             events_done += 50
+        self.logger.info('%s, finished get_events()', __name__)
         return result

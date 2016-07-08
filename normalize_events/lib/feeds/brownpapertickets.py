@@ -16,6 +16,7 @@ class BPTClient(Client):
         result = []
         more_pages = True
         while more_pages:
+            self.logger.debug('%s, parsing page %s', __name__, page)
             page += 1
             source = self._get('browse.html', {
                 'start_date': datetime.date.today().strftime('%m/%d/%y'),
@@ -26,9 +27,11 @@ class BPTClient(Client):
                 'page': page
                 })
             links = BeautifulSoup(source.text, "html.parser").findAll("a", "viewlink")
+            self.logger.debug('%s, url: %s, links: %s', __name__, source.url, links)
             if links:
-                group_ids = map(lambda link: str(link)[65:72], links)
+                group_ids = [str(link)[65:72] for link in links]
                 for group_id in group_ids:
+                    self.logger.debug('%s, group_id: %s', __name__, group_id)
                     result.append(self._get('group/{group_id}'.format(group_id=group_id)).url[39:])
             else:
                 return self.parse_event_ids(result)
@@ -102,6 +105,7 @@ class BPTClient(Client):
         return event_cost
 
     def get_events(self):
+        self.logger.info('%s, running get_events()', __name__)
         event_ids = self.get_event_ids()
         result = []
         for event_id in event_ids:
@@ -114,4 +118,5 @@ class BPTClient(Client):
                 event.cost = event_cost['cost']
                 event.api.append(event_cost['cost_api'])
                 result.append(event)
+        self.logger.info('%s, finished get_events()', __name__)
         return result
