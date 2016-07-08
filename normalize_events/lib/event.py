@@ -32,7 +32,7 @@ class Event(object):
             ]
         for requirement in requirements:
             try:
-                if getattr(self, requirement) is None:
+                if not getattr(self, requirement):
                     return EventLog(self.name, requirement, self.link, self.api)
             except AttributeError:
                 return EventLog(self.name, requirement, self.link, self.api)

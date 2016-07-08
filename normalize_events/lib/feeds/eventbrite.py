@@ -20,18 +20,14 @@ class EventbriteClient(Client):
             self.logger.exception('eventbrite auth error', first_page)
 
         event_ids = []
-        event_ids.extend(self.parse_event_ids(first_page['events']))
+        event_ids.extend([event['id'] for event in first_page['events']])
         for page in range(2, pages + 1):
-            event_ids.extend(self.parse_event_ids(self.get_page(page)['events']))
+            event_ids.extend([event['id'] for event in self.get_page(page)['events']])
         db_ids = self.get_db_ids()
         result = []
         for event_id in event_ids:
             if event_id not in db_ids:
                 result.append(event_id)
-        return result
-
-    def parse_event_ids(self, events):
-        result = [event['id'] for event in events]
         return result
 
     def get_page(self, page=1):
