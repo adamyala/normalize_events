@@ -26,7 +26,9 @@ class EventfulClient(Client):
         for event in events_json['events']['event']:
             curr_event = Event()
             curr_event.name = helpers.clean_string(event['title'])
-            curr_event.description = helpers.clean_string(event['description'])
+            description = helpers.clean_string(event['description'])
+            if not description:
+                curr_event.description = self.get_alt_description(event['id'])
             curr_event.date = datetime.datetime.strptime(event['start_time'], "%Y-%m-%d %H:%M:%S")
             curr_event.place = event['venue_name']
             curr_event.address1 = helpers.clean_address(event['venue_address'])
@@ -36,11 +38,26 @@ class EventfulClient(Client):
             curr_event.zipcode = event['postal_code']
             curr_event.cost = 0 if 'cost' not in event else event['cost']
             curr_event.link = event['url']
-            curr_event.api = 'http://api.eventful.com/rest/events/get?app_key=' + self.token + '&id=' + event['id']
+            curr_event.api = 'http://api.eventful.com/json/events/get?app_key=' + self.token + '&id=' + event['id']
             curr_event.source = self.source
             curr_event.api_id = event['id']
             result.append(curr_event)
         return result
+
+    def get_alt_description(self, event_id):
+        response = json.loads(self._get('get/', {
+            'app_key': self.token,
+            'id': event_id
+        }).text)
+        try:
+            for link in response['links']['link']:
+                if link['description']:
+                    return link['description']
+        except:
+            # TODO: Make exception more specific
+            self.logger.exception(
+                'eventbrite event parsing error', response)
+        return ''
 
     def get_events(self):
         self.logger.info('%s, running get_events()', __name__)
