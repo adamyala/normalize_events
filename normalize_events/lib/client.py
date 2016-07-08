@@ -14,12 +14,15 @@ class Client(object):
         self.logger = self.setup_logging(log_config_path)
 
     def _get(self, url, params=None, headers=None, stream=False):
-        return requests.get(
+        response = requests.get(
             '{server}/{url}'.format(server=self.server, url=url),
             params=params,
             headers=headers,
             stream=stream,
-            )
+        )
+        if response.status_code == 429:
+            raise RuntimeError('API limit reached')
+        return response
 
     def get_db_ids(self):
         db_proxy = self.connection.execute(
