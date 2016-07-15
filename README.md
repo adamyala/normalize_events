@@ -1,5 +1,5 @@
 # normalize_events
-normalize_events takes events from the following sources and creates a normalizes the data in one API endpoint:
+normalize_events takes events from the following sources and normalizes the data in one API endpoint:
 
 * [Eventbrite](http://developer.eventbrite.com/)
 * [Brown Paper Tickets](https://www.brownpapertickets.com/developer/index.html)
