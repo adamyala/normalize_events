@@ -39,7 +39,7 @@ CLIENT_EB = {
 }
 CLIENT_BPT = {
     'token': '',
-    'url': 'https://www.brownpapertickets.com',
+    'url': 'http://www.brownpapertickets.com',
     'state': 'IL',
     'country': 'United States',
     'category_id': {
@@ -83,7 +83,7 @@ CLIENT_MU = {
 }
 CLIENT_EF = {
     'token': '',
-    'url': 'http://api.eventful.com/json/events/search',
+    'url': 'http://api.eventful.com/json/events',
     'location': 'Chicago',
     'category': {
         'Music': 'music',
