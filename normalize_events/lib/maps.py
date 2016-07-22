@@ -1,6 +1,5 @@
 import os
 import shutil
-import requests
 from config import CLIENT_GM
 from lib.client import Client
 
@@ -27,10 +26,10 @@ class MapClient(Client):
             return False
 
     def breakdown_address(self, address_string):
-        results = requests.get(
-            url='https://maps.googleapis.com/maps/api/geocode/json',
-            params={'address': address_string}
-        ).json()['results']
+        response = self._get('maps/api/geocode/json', {
+            'address': address_string
+        })
+        results = response.json()['results']
 
         if not results:
             return False
