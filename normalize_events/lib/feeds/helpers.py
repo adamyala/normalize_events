@@ -6,7 +6,7 @@ from decimal import Decimal
 
 def clean_string(descrip):
     if not descrip:
-        return descrip
+        return ''
     result = html.unescape(descrip)
     result = re.sub('<[^>]*>', '', result)
     result = result.replace('\n', '')

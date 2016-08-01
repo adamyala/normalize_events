@@ -25,11 +25,16 @@ class Event(object):
 
     def is_incomplete(self):
         requirements = [
-            'name', 'description', 'date',
-            'place', 'address1', 'city',
-            'state', 'cost', 'api',
-            'link', 'source'
-            ]
+            'name',
+            'date',
+            'place',
+            'address1',
+            'city',
+            'state',
+            'api',
+            'link',
+            'source',
+        ]
         for requirement in requirements:
             try:
                 if not getattr(self, requirement):
@@ -74,7 +79,7 @@ class Event(object):
     def set_categories(self, connection):
         event_category = Category(connection)
         event_category.get_categories_in_db()
-        event_category.add_event_category(self.name + ' ' + self.description, self.event_id)
+        event_category.add_event_category(str(self.name) + ' ' + str(self.description), self.event_id)
         return self
 
     def get_address(self):
