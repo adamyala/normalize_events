@@ -96,12 +96,12 @@ class EventbriteClient(Client):
 
             # We also do inserts here because the API can give us API limit errors at anytime.
             # The is_valid check later will not insert dupes.
-            invalid = curr_event.is_invalid(self.connection)
-            if invalid is False:
+            valid = curr_event.is_valid(self.connection)
+            if valid is True:
                 curr_event.insert(self.connection)
                 curr_event.set_categories(self.connection)
-            elif type(invalid) is not bool:
-                invalid.insert(self.connection)
+            elif type(valid) is not bool:
+                valid.insert(self.connection)
 
             return curr_event
         except KeyError:

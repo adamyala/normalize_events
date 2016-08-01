@@ -23,7 +23,7 @@ class Event(object):
             self.categories = None
             self.api_id = None
 
-    def is_incomplete(self):
+    def is_complete(self):
         requirements = [
             'name',
             'date',
@@ -41,7 +41,7 @@ class Event(object):
                     return EventLog(self.name, requirement, self.link, self.api)
             except AttributeError:
                 return EventLog(self.name, requirement, self.link, self.api)
-        return False
+        return True
 
     def is_duplicate(self, connection):
         event_dupe = connection.execute(select([event.c.link]).where(
@@ -49,12 +49,13 @@ class Event(object):
             ).rowcount
         return True if event_dupe > 0 else False
 
-    def is_invalid(self, connection):
-        incompleteness = self.is_incomplete()
-        if type(incompleteness) is bool and incompleteness is True:
-            return incompleteness or self.is_duplicate(connection)
-        else:
-            return incompleteness
+    def is_valid(self, connection):
+        completeness = self.is_complete()
+        if type(completeness) is EventLog:
+            return completeness
+        if self.is_duplicate(connection):
+            return False
+        return True
 
     def insert(self, connection):
         ins = event.insert().values(
