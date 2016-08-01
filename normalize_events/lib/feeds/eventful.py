@@ -56,7 +56,7 @@ class EventfulClient(Client):
         except:
             # TODO: Make exception more specific
             self.logger.exception(
-                'eventbrite event parsing error', response)
+                'eventful event parsing error', response)
         return ''
 
     def get_events(self):

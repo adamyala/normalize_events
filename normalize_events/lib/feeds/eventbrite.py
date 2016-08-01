@@ -64,7 +64,7 @@ class EventbriteClient(Client):
         for ticket_price in ticket_prices:
             if ticket_price['free'] or ticket_price['donation']:
                 return cost
-            new_cost = (ticket_price['cost']['value'] + ticket_price['fee']['value'])/100
+            new_cost = ticket_price['cost']['value'] / 100
             if new_cost < cost or cost is 0:
                 cost = new_cost
         return cost
