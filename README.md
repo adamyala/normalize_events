@@ -1,4 +1,7 @@
 # normalize_events
+
+[![Code Issues](https://www.quantifiedcode.com/api/v1/project/e449d11d17f74ceb9dcaf2d03b589775/badge.svg)](https://www.quantifiedcode.com/app/project/e449d11d17f74ceb9dcaf2d03b589775)
+
 normalize_events takes events from the following sources and normalizes the data in one API endpoint:
 
 * [Eventbrite](http://developer.eventbrite.com/)

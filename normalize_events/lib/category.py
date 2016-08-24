@@ -15,7 +15,8 @@ class Category(object):
 
     def get_categories_in_db(self):
         query = select([category.c.category])
-        self.categories_in_db = self.connection.execute(query).fetchall()
+        category_tuples = self.connection.execute(query).fetchall()
+        self.categories_in_db = [category_tuple[0] for category_tuple in category_tuples]
         return self
 
     def add_categories_to_db(self, event_categories):

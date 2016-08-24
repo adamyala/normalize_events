@@ -42,10 +42,6 @@ def rows_to_dict(keys, rows):
 def pretty_events(events):
     for event in events:
         for key in event:
-            if type(event[key]) is datetime.datetime:
-                event[key] = re.sub(r'( 0)', ' ', event[key].strftime('%A, %B %d %Y %I:%M %p'))
-            if type(event[key]) is Decimal:
-                event[key] = float(event[key])
-            if key == 'category':
+            if key is 'category':
                 event[key] = event[key].split(',')
     return events
