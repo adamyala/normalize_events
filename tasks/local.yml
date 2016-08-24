@@ -1,0 +1,54 @@
+---
+- hosts: events
+  remote_user: vagrant
+  vars:
+    remote_user: vagrant
+    project_name: normalize_events
+    installed_dir: "/var/www/{{ project_name }}"
+    repo: git@github.com:adamyala/normalize_events.git
+    branch: dev 
+
+  tasks: 
+  - name: update package cache and upgrade packages
+    apt: 
+      update_cache: yes
+      upgrade: full
+    become: true
+    become_user: root
+
+  - name: install git, apache2
+    apt: 
+      name: "{{item}}"
+      state: latest
+    with_items:
+      - apache2
+      - libapache2-mod-wsgi
+      - git
+    become: true
+    become_user: root
+
+  - name: change owner to {{ remote_user }}
+    file:
+      owner: "{{ remote_user }}"
+      path: "/var/www/"
+      state: directory
+    become: true
+    become_user: root
+
+  - name: download repo
+    git:
+      accept_hostkey: true
+      repo: "{{ repo }}"
+      dest: "{{ installed_dir }}"
+      version: "{{ branch }}"
+
+  - name: copy apache config
+    template: src=files/000-default.conf dest=/etc/apache2/sites-available/000-default.conf
+    become: true
+    become_user: root
+
+  handlers:
+    - name: restart apache
+      action: service name=apache2 state=restarted
+      become: true
+      become_user: root
