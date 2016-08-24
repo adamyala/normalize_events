@@ -25,12 +25,14 @@ class Client(object):
         return response
 
     def get_db_ids(self):
+
         db_proxy = self.connection.execute(
             select([event.c.api_id]).where(event.c.source == self.source)
             )
         return [row['api_id'].encode('utf-8') for row in db_proxy.fetchall()]
 
-    def setup_logging(self, log_config_path):
+    @staticmethod
+    def setup_logging(log_config_path):
         with open(log_config_path, 'rt') as log_config_file:
             config_json = json.load(log_config_file)
         logging.config.dictConfig(config_json)

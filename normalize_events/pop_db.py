@@ -5,7 +5,7 @@ from lib.feeds.brownpapertickets import BPTClient
 from lib.feeds.universe import UniverseClient
 from lib.feeds.eventful import EventfulClient
 from lib.pop_db import PopDb
-from config import *
+from config import CLIENT_BPT, CLIENT_MU, CLIENT_EB, CLIENT_EF, CLIENT_UNI, CLIENT_GM
 from lib.maps import MapClient
 
 

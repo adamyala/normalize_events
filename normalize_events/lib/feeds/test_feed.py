@@ -6,7 +6,8 @@ class TestClient(object):
     def __init__(self):
         pass
 
-    def get_events(self):
+    @staticmethod
+    def get_events():
         test_event = Event()
         test_event.address1 = "2112 N Ashland Ave"
         test_event.address2 = "Sushi Bar"
