@@ -73,7 +73,7 @@
       db: events
       name: "{{ item }}"
       password: "{{ psql_password }}"
-      priv: ALL
+      priv: ALL/ALL
     with_items:
       - "{{ remote_user }}"
       - www-data
