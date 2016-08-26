@@ -6,7 +6,7 @@
     project_name: normalize_events
     installed_dir: "/var/www/{{ project_name }}"
     repo: git@github.com:adamyala/normalize_events.git
-    branch: dev 
+    branch: devops
 
   tasks: 
   - name: update package cache and upgrade packages
@@ -16,7 +16,7 @@
     become: true
     become_user: root
 
-  - name: install git, apache2
+  - name: install ubuntu packages
     apt: 
       name: "{{item}}"
       state: latest
@@ -24,6 +24,11 @@
       - apache2
       - libapache2-mod-wsgi
       - git
+      - python-dev
+      - python-pip
+      - postgresql
+      - python-psycopg2
+      - libpq-dev
     become: true
     become_user: root
 
@@ -41,6 +46,20 @@
       repo: "{{ repo }}"
       dest: "{{ installed_dir }}"
       version: "{{ branch }}"
+
+  - name: install virtualenv
+    pip:
+      name: virtualenv
+      state: latest
+    become: true
+    become_user: root
+
+  - name: install dependancies
+    pip:
+      virtualenv: "{{ installed_dir }}/venv/bin/python"
+      requirements: "{{ installed_dir }}/requirements.txt"
+    become: true
+    become_user: root
 
   - name: copy apache config
     template: src=files/000-default.conf dest=/etc/apache2/sites-available/000-default.conf
