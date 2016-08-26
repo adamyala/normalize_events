@@ -19,7 +19,7 @@
 
   - name: install ubuntu packages
     apt: 
-      name: "{{item}}"
+      name: "{{ item }}"
       state: latest
     with_items:
       - apache2
@@ -61,8 +61,6 @@
       virtualenv_python: python3
       virtualenv: "{{ installed_dir }}/venv/bin/python"
       requirements: "{{ installed_dir }}/requirements.txt"
-    become: true
-    become_user: root
 
   - name: make events database
     postgresql_db:
@@ -70,14 +68,24 @@
     become: true
     become_user: postgres
 
-  - name: make www-data postgresql user
+  - name: make {{ remote_user }} and ww-data postgresql users
     postgresql_user:
       db: events
-      name: www-data
+      name: "{{ item }}"
       password: "{{ psql_password }}"
       priv: ALL
+    with_items:
+      - "{{ remote_user }}"
+      - www-data
     become: true
     become_user: postgres
+
+  - name: copy config file
+    template:
+      src: "../{{ project_name }}/config.py"
+      dest: "{{ installed_dir }}/{{ project_name }}/config.py"
+    become: true
+    become_user: root
 
   - name: copy apache config
     template: src=files/000-default.conf dest=/etc/apache2/sites-available/000-default.conf
