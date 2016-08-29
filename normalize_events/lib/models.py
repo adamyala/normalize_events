@@ -72,5 +72,3 @@ eventlog = Table(
     )
 
 metadata.create_all(engine)
-
-# TODO: Function that will add initial categories to db based on the configured category

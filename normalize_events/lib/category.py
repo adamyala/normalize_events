@@ -23,7 +23,8 @@ class Category(object):
         self.get_categories_in_db()
         for category_type in event_categories:
             if category_type not in self.categories_in_db:
-                category.insert().values(category=category_type)
+                ins = category.insert().values(category=category_type)
+                self.connection.execute(ins)
         self.get_categories_in_db()
         return self
 
