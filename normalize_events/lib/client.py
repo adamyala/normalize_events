@@ -1,5 +1,6 @@
 import json
 import logging.config
+import os
 import requests
 from sqlalchemy.sql import select
 from lib.models import engine, event
@@ -32,8 +33,8 @@ class Client(object):
         return [row['api_id'].encode('utf-8') for row in db_proxy.fetchall()]
 
     @staticmethod
-    def setup_logging(log_config_path):
-        with open(log_config_path, 'rt') as log_config_file:
-            config_json = json.load(log_config_file)
+    def setup_logging(log_file):
+        path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))) + '/'
+        with open(path + log_file, 'rt') as log_config_file:
         logging.config.dictConfig(config_json)
         return logging.getLogger(__name__)

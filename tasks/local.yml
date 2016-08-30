@@ -7,7 +7,7 @@
     installed_dir: "/var/www/{{ project_name }}"
     repo: git@github.com:adamyala/normalize_events.git
     branch: devops
-    psql_password: NULL
+    psql_password: password
 
   tasks: 
   - name: update package cache and upgrade packages
