@@ -36,5 +36,6 @@ class Client(object):
     def setup_logging(log_file):
         path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))) + '/'
         with open(path + log_file, 'rt') as log_config_file:
+            config_json = json.load(log_config_file)
         logging.config.dictConfig(config_json)
         return logging.getLogger(__name__)

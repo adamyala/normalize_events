@@ -21,7 +21,9 @@ class MeetupClient(Client):
     def parse_events(self, events):
         result = []
         for event in events:
-            if 'venue' in event and 'state' in event['venue'] and event['venue']['state'] == 'IL':
+            if 'venue' not in event or 'state' not in event['venue'] or event['venue']['state'] != 'IL':
+                continue
+            try:
                 curr_event = Event()
                 curr_event.name = helpers.clean_string(event['name'])
                 curr_event.description = helpers.clean_string(event['description'])
@@ -41,6 +43,12 @@ class MeetupClient(Client):
                 curr_event.api_id = event['id']
                 curr_event.source = self.source
                 result.append(curr_event)
+            except KeyError:
+                self.logger.exception(
+                    'meetup event parsing error',
+                    event,
+                    event['id']
+                )
         return result
 
     def get_events(self):

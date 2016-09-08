@@ -48,6 +48,13 @@
       dest: "{{ installed_dir }}"
       version: "{{ branch }}"
 
+  - name: copy config file
+    template:
+      src: "../{{ project_name }}/config.py"
+      dest: "{{ installed_dir }}/{{ project_name }}/config.py"
+    become: true
+    become_user: root
+
   - name: install virtualenv
     pip:
       virtualenv_python: python3
@@ -68,25 +75,35 @@
     become: true
     become_user: postgres
 
-  - name: make {{ remote_user }} and ww-data postgresql users
+  - name: make {{ remote_user }} and wwwdata postgresql users
     postgresql_user:
       db: events
       name: "{{ item }}"
       password: "{{ psql_password }}"
-      priv: ALL
       state: present
     with_items:
       - "{{ remote_user }}"
-      - www-data
+      - wwwdata
     become: true
     become_user: postgres
 
-  - name: copy config file
-    template:
-      src: "../{{ project_name }}/config.py"
-      dest: "{{ installed_dir }}/{{ project_name }}/config.py"
+  - name: seed database
+    command: "../venv/bin/python/bin/python seed_db.py"
+    args:
+      chdir: "{{ installed_dir }}/normalize_events"
+
+  - name: add db user privlages
+    postgresql_user:
+      db: events
+      name: "{{ item[0] }}"
+      password: "{{ psql_password }}"
+      priv: "{{ item[1] }}"
+      state: present
+    with_nested:
+      - [ "{{ remote_user }}", wwwdata" ]
+      - [ 'event:ALL', 'category:ALL', 'eventcategory:ALL', 'eventlog:ALL' ]
     become: true
-    become_user: root
+    become_user: postgres
 
   - name: copy apache config
     template: src=files/000-default.conf dest=/etc/apache2/sites-available/000-default.conf
