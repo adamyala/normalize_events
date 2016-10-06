@@ -9,3 +9,4 @@ normalize_events/lib/__pycache__/
 normalize_events/lib/category_lib/__pycache__/
 normalize_events/lib/feeds/__pycache__/
 .vagrant/
+*.retry

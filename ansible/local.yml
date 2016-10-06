@@ -69,7 +69,7 @@
     become: true
     become_user: www-data
 
-  - name: get events
-    command: "/var/venvs/normalize_events/bin/python /www/normalize_events/normalize_events/pop_db.py"
-    become: true
-    become_user: www-data
+  # - name: get events
+  #   command: "/var/venvs/normalize_events/bin/python /www/normalize_events/normalize_events/pop_db.py"
+  #   become: true
+  #   become_user: www-data

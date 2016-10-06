@@ -1,0 +1,15 @@
+[submodule "ansible/uwsgi-vassal"]
+	path = ansible/uwsgi-vassal
+	url = git@github.com:vforgione/ansible-role-uwsgi-vassal.git
+[submodule "ansible/uwsgi-emperor"]
+	path = ansible/uwsgi-emperor
+	url = git@github.com:vforgione/ansible-role-uwsgi-emperor.git
+[submodule "ansible/python"]
+	path = ansible/python
+	url = git@github.com:vforgione/ansible-role-python.git
+[submodule "ansible/nginx"]
+	path = ansible/nginx
+	url = git@github.com:jdauphant/ansible-role-nginx.git
+[submodule "ansible/postgres"]
+	path = ansible/postgres
+	url = git@github.com:ANXS/postgresql.git
