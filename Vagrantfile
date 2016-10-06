@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
     # set ansible verbosity and run playbook
     events.vm.provision "ansible" do |ansible|
       # ansible.verbose = "vvv"
-      ansible.playbook = "tasks/local.yml"
+      ansible.playbook = "ansible/local.yml"
     end
     
   end
