@@ -36,7 +36,8 @@ class UniverseClient(Client):
             curr_event = Event()
             curr_event.name = helpers.clean_string(event['title'])
             curr_event.description = helpers.clean_string(event['description'])
-            curr_event.date = parser.parse(event['start_time'])
+            curr_event.start_date = parser.parse(event['start_time'])
+            curr_event.end_date = parser.parse(event['end_time'])
             curr_event.place = event['location']
             curr_event.address1 = address_dict['address1']
             curr_event.address2 = None

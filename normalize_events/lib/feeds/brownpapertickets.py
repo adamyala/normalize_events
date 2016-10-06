@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from bs4 import BeautifulSoup
 from xml.etree import ElementTree
 from config import CLIENT_BPT, CATEGORY
@@ -19,7 +19,7 @@ class BPTClient(Client):
             self.logger.debug('%s, parsing page %s', __name__, page)
             page += 1
             source = self._get('browse.html', {
-                'start_date': datetime.date.today().strftime('%m/%d/%y'),
+                'start_date': datetime.now().strftime('%m/%d/%y'),
                 'end_date': '12/31/2020',
                 'category_id': CLIENT_BPT['category_id'][CATEGORY],
                 'state': CLIENT_BPT['state'],
@@ -75,12 +75,14 @@ class BPTClient(Client):
             })
         dates = ElementTree.fromstring(response.text.encode('utf-8')).findall('date')
         result = {
-            'date': datetime.datetime.strptime('2050-01-01', '%Y-%m-%d'),
+            'date': datetime.strptime('2050-01-01', '%Y-%m-%d'),
             'date_api': response.url
         }
         for date in dates:
-            event_time = datetime.datetime.strptime(
-                str(date.find('datestart').text) + 'T' + str(date.find('timestart').text),
+            # TODO: See if the dates are in order to remove loop
+            # TODO: Add end date/time
+            event_time = datetime.strptime(
+                date.find('datestart').text + 'T' + date.find('timestart').text,
                 '%Y-%m-%dT%H:%M'
                 )
             if event_time < result['date']:
@@ -112,7 +114,8 @@ class BPTClient(Client):
             event = self.get_event_loc(event_id)
             if event:
                 event_date = self.get_event_date(event_id)
-                event.date = event_date['date']
+                event.start_date = event_date['start_date']
+                event.end_date = event_date['end_date']
                 event.api.append(event_date['date_api'])
                 event_cost = self.get_event_cost(event_date['date_id'])
                 event.cost = event_cost['cost']

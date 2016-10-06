@@ -1,5 +1,5 @@
-import datetime
 import json
+from datetime import datetime
 from config import CLIENT_EB, CATEGORY
 from lib.client import Client
 from lib.event import Event
@@ -36,7 +36,7 @@ class EventbriteClient(Client):
             'categories': CLIENT_EB['categories'][CATEGORY],
             'location.address': CLIENT_EB['location_address'],
             'location.within': CLIENT_EB['location_within'],
-            'start_date.range_start': datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+            'start_date.range_start': datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
             }, {'Authorization': 'Bearer ' + self.token})
         return json.loads(request.text)
 
@@ -80,7 +80,8 @@ class EventbriteClient(Client):
 
         try:
             curr_event.name = helpers.clean_string(event_detail['name']['text'])
-            curr_event.date = datetime.datetime.strptime(event_detail['start']['local'], '%Y-%m-%dT%H:%M:%S')
+            curr_event.start_date = datetime.strptime(event_detail['start']['local'], '%Y-%m-%dT%H:%M:%S')
+            curr_event.end_date = datetime.strptime(event_detail['end']['local'], '%Y-%m-%dT%H:%M:%S')
             curr_event.description = helpers.clean_string(event_detail['description']['text'])
             curr_event.api = event_detail['resource_uri'] + '?token=' + self.token
             curr_venue = self.get_event_venue(event_detail['venue_id'])

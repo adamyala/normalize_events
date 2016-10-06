@@ -12,7 +12,8 @@ class Event(object):
             self.source = None
             self.city = None
             self.cost = None
-            self.date = None
+            self.start_date = None
+            self.end_date = None
             self.description = None
             self.link = None
             self.name = None
@@ -65,7 +66,8 @@ class Event(object):
             source=self.source,
             city=self.city,
             cost=self.cost,
-            date=self.date,
+            start_date=self.start_date,
+            end_date=self.end_date,
             description=self.description,
             link=self.link,
             name=self.name,

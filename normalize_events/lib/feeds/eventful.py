@@ -1,5 +1,5 @@
-import datetime
 import json
+from datetime import datetime
 from config import CATEGORY, CLIENT_EF
 from lib.client import Client
 from lib.event import Event
@@ -29,7 +29,8 @@ class EventfulClient(Client):
             description = helpers.clean_string(event['description'])
             if not description:
                 curr_event.description = self.get_alt_description(event['id'])
-            curr_event.date = datetime.datetime.strptime(event['start_time'], "%Y-%m-%d %H:%M:%S")
+            curr_event.start_date = datetime.strptime(event['start_time'], "%Y-%m-%d %H:%M:%S")
+            curr_event.end_date = datetime.strptime(event['end_time'], "%Y-%m-%d %H:%M:%S")
             curr_event.place = event['venue_name']
             curr_event.address1 = helpers.clean_address(event['venue_address'])
             curr_event.address2 = None
