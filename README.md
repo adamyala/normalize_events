@@ -18,6 +18,20 @@ Coming soon...
 
 # Setup
 
+## Local Development - Vagrant
+
+This method requires [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](https://www.vagrantup.com/downloads.html), and [Ansible](http://docs.ansible.com/ansible/intro_installation.html)
+
+1. Clone the repository with `git clone git@github.com:adamyala/normalize_events.git`
+1. `cd` into the directory
+1. Add your API keys to all the token fields in `config.py`
+1. Run `vagrant up`
+1. The API can be accessed at `127.0.0.1:4567`
+
+The Vagrant machine will be using your local files so any changes will be reflected.
+
+## Local Development - Manually
+
 Clone the repository.
 
 ```

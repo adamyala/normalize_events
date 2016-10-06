@@ -24,6 +24,9 @@ Vagrant.configure("2") do |config|
       v.customize ["modifyvm", :id, "--name", "events"]
     end
 
+    # Sync local files to virtual machine
+    config.vm.synced_folder '.', '/www/normalize_events', owner: 'www-data', group: 'www-data', mount_options: ['dmode=755,fmode=755']
+
     # set ansible verbosity and run playbook
     events.vm.provision "ansible" do |ansible|
       # ansible.verbose = "vvv"

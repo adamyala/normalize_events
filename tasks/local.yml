@@ -1,118 +1,75 @@
 ---
 - hosts: events
-  remote_user: vagrant
+  become: true
+  become_user: root
   vars:
-    remote_user: vagrant
     project_name: normalize_events
-    installed_dir: "/var/www/{{ project_name }}"
     repo: git@github.com:adamyala/normalize_events.git
     branch: devops
-    psql_password: password
+
+  pre_tasks:
+    - name: install ubuntu packages
+      apt: 
+        name: "{{ item }}"
+        state: latest
+        update_cache: yes
+      with_items:
+        - libpq-dev
+
+  roles:
+    - role: python
+
+    - role: postgres
+      postgresql_version: 9.5
+      postgresql_admin_user: postgres
+      postgresql_default_auth_method: "trust"
+      postgresql_databases:
+      - name: events
+      postgresql_users:
+        - name: www-data
+
+    - role: uwsgi-emperor
+
+    - role: uwsgi-vassal
+      python_version: 3.5
+      app_name: "{{ project_name }}"
+      app_enabled: yes
+      requirements_file: "/www/{{ project_name }}/requirements.txt"
+      system_packages:
+        - python3-dev
+      uwsgi:
+        wsgi-file: __init__.py
+        callable: app
+        socket: 127.0.0.1:5000
+        workers: 1
+        buffer-size: 16384
+        pythonpath: "/www/{{ project_name }}/{{ project_name }}"
+        chdir: "/www/{{ project_name }}/{{ project_name }}"
+        home: "/var/venvs/{{ project_name }}"
+
+    - role: nginx
+      nginx_user: 'www-data'
+      nginx_sites:
+        normalize_events:
+          - listen 80
+          - server_name 127.0.0.1
+          - charset utf-8
+          - root www/{{ project_name }}
+          - gzip on
+          - gzip_proxied any
+          - gzip_types text/plain text/xml application/json text/html
+          - gzip_vary on
+          - gzip_disable "MSIE [1-6]\.(?!.*SV1)"
+          - location @app { uwsgi_pass 127.0.0.1:5000; include uwsgi_params; }
+          - location / { try_files $uri @app; }
 
   tasks: 
-  - name: update package cache and upgrade packages
-    apt: 
-      update_cache: yes
-      upgrade: full
+  - name: seed database categories
+    command: "/var/venvs/normalize_events/bin/python /www/normalize_events/normalize_events/seed_db.py"
     become: true
-    become_user: root
+    become_user: www-data
 
-  - name: install ubuntu packages
-    apt: 
-      name: "{{ item }}"
-      state: latest
-    with_items:
-      - apache2
-      - libapache2-mod-wsgi-py3
-      - git
-      - python3-dev
-      - python-pip
-      - postgresql
-      - python-psycopg2
-      - libpq-dev
+  - name: get events
+    command: "/var/venvs/normalize_events/bin/python /www/normalize_events/normalize_events/pop_db.py"
     become: true
-    become_user: root
-
-  - name: change owner to {{ remote_user }}
-    file:
-      owner: "{{ remote_user }}"
-      path: "/var/www/"
-      state: directory
-    become: true
-    become_user: root
-
-  - name: download repo
-    git:
-      accept_hostkey: true
-      repo: "{{ repo }}"
-      dest: "{{ installed_dir }}"
-      version: "{{ branch }}"
-
-  - name: copy config file
-    template:
-      src: "../{{ project_name }}/config.py"
-      dest: "{{ installed_dir }}/{{ project_name }}/config.py"
-    become: true
-    become_user: root
-
-  - name: install virtualenv
-    pip:
-      virtualenv_python: python3
-      name: virtualenv
-      state: latest
-    become: true
-    become_user: root
-
-  - name: install dependancies
-    pip:
-      virtualenv_python: python3
-      virtualenv: "{{ installed_dir }}/venv/bin/python"
-      requirements: "{{ installed_dir }}/requirements.txt"
-
-  - name: make events database
-    postgresql_db:
-      name: events
-    become: true
-    become_user: postgres
-
-  - name: make {{ remote_user }} and wwwdata postgresql users
-    postgresql_user:
-      db: events
-      name: "{{ item }}"
-      password: "{{ psql_password }}"
-      state: present
-    with_items:
-      - "{{ remote_user }}"
-      - wwwdata
-    become: true
-    become_user: postgres
-
-  - name: seed database
-    command: "../venv/bin/python/bin/python seed_db.py"
-    args:
-      chdir: "{{ installed_dir }}/normalize_events"
-
-  - name: add db user privlages
-    postgresql_user:
-      db: events
-      name: "{{ item[0] }}"
-      password: "{{ psql_password }}"
-      priv: "{{ item[1] }}"
-      state: present
-    with_nested:
-      - [ "{{ remote_user }}", wwwdata" ]
-      - [ 'event:ALL', 'category:ALL', 'eventcategory:ALL', 'eventlog:ALL' ]
-    become: true
-    become_user: postgres
-
-  - name: copy apache config
-    template: src=files/000-default.conf dest=/etc/apache2/sites-available/000-default.conf
-    become: true
-    become_user: root
-    notify: restart apache
-
-  handlers:
-    - name: restart apache
-      action: service name=apache2 state=restarted
-      become: true
-      become_user: root
+    become_user: www-data
