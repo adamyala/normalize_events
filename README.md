@@ -24,11 +24,14 @@ This method requires [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [V
 
 1. Clone the repository with `git clone git@github.com:adamyala/normalize_events.git`
 1. `cd` into the directory
+1. Run `git submodule update --init --recursive` to pull in ansible roles
 1. Add your API keys to all the token fields in `config.py`
 1. Run `vagrant up`
 1. The API can be accessed at `127.0.0.1:4567`
 
 The Vagrant machine will be using your local files so any changes will be reflected.
+
+NOTE: Eventbrite limits API hits every 8 hours. Pulling all events at first may take multiple runs.
 
 ## Local Development - Manually
 

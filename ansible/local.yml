@@ -1,11 +1,7 @@
 ---
-- hosts: events
+- hosts: all
   become: true
   become_user: root
-  vars:
-    project_name: normalize_events
-    repo: git@github.com:adamyala/normalize_events.git
-    branch: devops
 
   pre_tasks:
     - name: install ubuntu packages
@@ -22,7 +18,7 @@
     - role: postgres
       postgresql_version: 9.5
       postgresql_admin_user: postgres
-      postgresql_default_auth_method: "trust"
+      postgresql_default_auth_method: trust
       postgresql_databases:
       - name: events
       postgresql_users:
@@ -32,9 +28,9 @@
 
     - role: uwsgi-vassal
       python_version: 3.5
-      app_name: "{{ project_name }}"
+      app_name: normalize_events
       app_enabled: yes
-      requirements_file: "/www/{{ project_name }}/requirements.txt"
+      requirements_file: /www/normalize_events/requirements.txt
       system_packages:
         - python3-dev
       uwsgi:
@@ -43,9 +39,9 @@
         socket: 127.0.0.1:5000
         workers: 1
         buffer-size: 16384
-        pythonpath: "/www/{{ project_name }}/{{ project_name }}"
-        chdir: "/www/{{ project_name }}/{{ project_name }}"
-        home: "/var/venvs/{{ project_name }}"
+        pythonpath: /www/normalize_events/normalize_events
+        chdir: /www/normalize_events/normalize_events
+        home: /var/venvs/normalize_events
 
     - role: nginx
       nginx_user: 'www-data'
@@ -54,7 +50,7 @@
           - listen 80
           - server_name 127.0.0.1
           - charset utf-8
-          - root www/{{ project_name }}
+          - root www/normalize_events
           - gzip on
           - gzip_proxied any
           - gzip_types text/plain text/xml application/json text/html
